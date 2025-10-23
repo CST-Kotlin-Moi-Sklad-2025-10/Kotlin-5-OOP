@@ -4,6 +4,8 @@ package ru.otus.cars
  * Машина целиком
  */
 interface Car : CarInput {
+
+    val tankMouth: TankMouth
     /**
      * Номерной знак
      */

@@ -6,6 +6,7 @@ import kotlin.random.Random
  * Семёрочка
  */
 class Vaz2107 private constructor(color: String) : VazPlatform(color) {
+    override val tankMouth = LpgMouth()
     /**
      * Сам-себе-сборщик ВАЗ 2107.
      */
@@ -59,7 +60,7 @@ class Vaz2107 private constructor(color: String) : VazPlatform(color) {
 
     // Выводим состояние машины
     override fun toString(): String {
-        return "Vaz2107(plates=$plates, wheelAngle=$wheelAngle, currentSpeed=$currentSpeed)"
+        return "Vaz2107(plates=$plates, wheelAngle=$wheelAngle, currentSpeed=$currentSpeed, tank=${tankMouth.tank.getContents()})"
     }
 
     /**
@@ -74,5 +75,10 @@ class Vaz2107 private constructor(color: String) : VazPlatform(color) {
         override fun getCurrentSpeed(): Int {
             return this@Vaz2107.currentSpeed
         }
+
+        override fun getFuelContents(): Int {
+            return this@Vaz2107.tankMouth.tank.getContents()
+        }
+
     }
 }
