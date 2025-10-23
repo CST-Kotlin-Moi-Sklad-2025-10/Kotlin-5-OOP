@@ -1,6 +1,16 @@
 package ru.otus.cars
 
 object Taz: Car {
+    override val tankMouth = object : PetrolMouth() {
+        override fun fuelPetrol(leters: Int): Unit {
+            throw RuntimeException("Взрыв")
+        }
+
+    }
+
+    override fun toString(): String {
+        return "Taz(tank=${tankMouth.tank.getContents()})"
+    }
     /**
      * Номерной знак
      */
