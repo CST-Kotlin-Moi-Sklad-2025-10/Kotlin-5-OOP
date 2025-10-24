@@ -1,5 +1,6 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '2.2.20'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.0'
+    id 'application'
 }
 
 kotlin {
@@ -10,7 +11,7 @@ test {
     useJUnitPlatform()
 }
 
-group 'ru.otus'
+group 'ru.otus.cars'
 version '1.0-SNAPSHOT'
 
 repositories {
@@ -20,4 +21,12 @@ repositories {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
     implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+}
+
+application {
+    mainClass = 'ru.otus.cars.MainKt'
+}
+
+test {
+    useJUnitPlatform()
 }

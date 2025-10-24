@@ -72,7 +72,15 @@ class Vaz2107 private constructor(color: String) : VazPlatform(color) {
      */
     inner class VazOutput : CarOutput {
         override fun getCurrentSpeed(): Int {
-            return this@Vaz2107.currentSpeed
+            return 0
+        }
+
+        override fun getFuelContents(): Int {
+            return 0
+        }
+
+        override fun getPetrolLevel(): Int {
+            return 0
         }
     }
 }
