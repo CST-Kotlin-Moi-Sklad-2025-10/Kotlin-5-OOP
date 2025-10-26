@@ -14,6 +14,20 @@ abstract class VazPlatform(override val color: String) : Car {
 
     // Абстрактное свойство двигателя
     abstract val engine: VazEngine
+
+    // Топливная система
+    // Бак - спрятан от пользователя, доступен только наследникам
+    protected abstract val tank: Tank
+
+    // Горловина бака - доступна для заправки
+    abstract val tankMouth: TankMouth
+
+    /**
+     * Заправить машину топливом
+     */
+    fun refuel(fuel: Fuel, amount: Double) {
+        tank.receiveFuel(fuel, amount)
+    }
 }
 
 // Перечисление двигателей ВАЗ
