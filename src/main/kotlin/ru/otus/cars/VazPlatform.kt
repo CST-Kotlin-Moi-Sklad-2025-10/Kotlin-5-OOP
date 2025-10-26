@@ -21,6 +21,13 @@ abstract class VazPlatform(override val color: String) : Car {
 
     // Горловина бака - доступна для заправки
     abstract val tankMouth: TankMouth
+
+    /**
+     * Заправить машину топливом
+     */
+    fun refuel(fuel: Fuel, amount: Double) {
+        tank.receiveFuel(fuel, amount)
+    }
 }
 
 // Перечисление двигателей ВАЗ

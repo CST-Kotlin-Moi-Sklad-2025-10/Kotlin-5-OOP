@@ -16,6 +16,8 @@ fun main() {
     techChecks()
     println("\n===> Taz...")
     println(Taz.color)
+    println("\n===> Refuel cars...")
+    refuelCars()
 }
 
 fun driveCars() {
@@ -89,5 +91,45 @@ fun repairEngine(car: VazPlatform) {
     when (car.engine) {
         is VazEngine.LADA_2107 -> println("Чистка карбюратора у двигателя объемом ${car.engine.volume} куб.см у машины $car")
         is VazEngine.SAMARA_2108 -> println("Угол зажигания у двигателя объемом ${car.engine.volume} куб.см у машины $car")
+    }
+}
+
+fun refuelCars() {
+    // Создаем коллекцию машин
+    val vaz2107 = Vaz2107.build(Car.Plates("А777АА", 77))
+    val vaz2108 = Vaz2108.build(Car.Plates("В888ВВ", 78))
+
+    val cars: List<Car> = listOf(vaz2107, vaz2108, Taz)
+
+    // Выводим состояние баков до заправки
+    println("\n--- Состояние баков ДО заправки ---")
+    cars.forEach { car ->
+        when (car) {
+            is VazPlatform -> {
+                println("$car")
+            }
+            is Taz -> {
+                println("Taz(color=${car.color}, fuelLevel=${car.carOutput.getFuelLevel()} л)")
+            }
+        }
+    }
+
+    // Заправляем машины на заправке
+    println("\n--- Процесс заправки ---")
+    cars.forEach { car ->
+        GasStation.refuel(car)
+    }
+
+    // Выводим состояние баков после заправки
+    println("\n--- Состояние баков ПОСЛЕ заправки ---")
+    cars.forEach { car ->
+        when (car) {
+            is VazPlatform -> {
+                println("$car")
+            }
+            is Taz -> {
+                println("Taz(color=${car.color}, fuelLevel=${car.carOutput.getFuelLevel()} л)")
+            }
+        }
     }
 }
