@@ -13,10 +13,23 @@ object Taz: Car {
     override val color: String = "Ржавый"
 
     /**
+     * Топливная система - взрывающийся бак
+     */
+    val tankMouth: TankMouth = TankMouth.PetrolMouth
+    private val tank: Tank = Tank.createExplodingTank()
+
+    /**
      * Следит за машиной
      */
-    override val carOutput: CarOutput
-        get() = throw NotImplementedError("Приборов нет")
+    override val carOutput: CarOutput = object : CarOutput {
+        override fun getCurrentSpeed(): Int {
+            throw NotImplementedError("Приборов нет")
+        }
+
+        override fun getFuelLevel(): Double {
+            return tank.getFuelLevel()
+        }
+    }
 
     /**
      * Получить оборудование
