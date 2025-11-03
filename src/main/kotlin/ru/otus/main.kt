@@ -1,6 +1,15 @@
-package ru.otus.cars
+package ru.otus
+
+import ru.otus.cars.*
+import ru.otus.gasstation.GasStantion
+import kotlin.random.Random
 
 fun main() {
+    val cars = listOf(
+        Vaz2107.build(Car.Plates("123", 77)),
+        Vaz2108.build(Car.Plates("321", 78)),
+        Taz
+    )
     println("\n===> drive cars...")
     driveCars()
     println("\n===> inner test...")
@@ -9,13 +18,16 @@ fun main() {
     garageMake()
     println("\n===> model special...")
     println("\n===> get equipment...")
-    getEquipment()
+    getEquipment(cars)
     println("\n===> get color...")
-    getColor()
+    getColor(cars)
     println("\n===> tech checks...")
     techChecks()
     println("\n===> Taz...")
     println(Taz.color)
+
+    val gasStantion = GasStantion()
+    gasStantion.fuelCars(cars)
 }
 
 fun driveCars() {
@@ -52,23 +64,13 @@ fun garageMake() {
     println(vaz.toString())
 }
 
-fun getEquipment() {
-    val cars = listOf(
-        Vaz2107.build(Car.Plates("123", 77)),
-        Vaz2108.build(Car.Plates("321", 78))
-    )
-
+fun getEquipment(cars: List<Car>) {
     cars.forEach { car ->
         println("Оборудование: ${car.getEquipment()}")
     }
 }
 
-fun getColor() {
-    val cars = listOf(
-        Vaz2107.build(Car.Plates("123", 77)),
-        Vaz2108.build(Car.Plates("321", 78))
-    )
-
+fun getColor(cars: List<Car>) {
     cars.forEach { car ->
         println("Цвет: ${car.color}")
     }
