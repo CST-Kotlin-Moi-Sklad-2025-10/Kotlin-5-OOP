@@ -28,4 +28,14 @@ interface Car : CarInput {
      * Внутренний статический класс - номерой знак
      */
     data class Plates(val number: String, val region: Int)
+
+    /**
+     * Топливный бак
+     */
+    abstract val tank: Tank
+
+    /**
+     * Горловина топливного бака
+     */
+    abstract val tankMouth: TankMouth
 }
