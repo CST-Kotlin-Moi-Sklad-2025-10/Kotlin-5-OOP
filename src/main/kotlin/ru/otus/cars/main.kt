@@ -1,5 +1,7 @@
 package ru.otus.cars
 
+import kotlin.random.Random
+
 fun main() {
     println("\n===> drive cars...")
     driveCars()
@@ -16,6 +18,14 @@ fun main() {
     techChecks()
     println("\n===> Taz...")
     println(Taz.color)
+    try {
+        Taz.tankMouth.open()
+        Taz.tankMouth.fuelLPG(12345)
+    }
+    catch (e: IllegalStateException) {
+        println(e.message)
+    }
+    refuelCars(getCars())
 }
 
 fun driveCars() {
@@ -89,5 +99,22 @@ fun repairEngine(car: VazPlatform) {
     when (car.engine) {
         is VazEngine.LADA_2107 -> println("Чистка карбюратора у двигателя объемом ${car.engine.volume} куб.см у машины $car")
         is VazEngine.SAMARA_2108 -> println("Угол зажигания у двигателя объемом ${car.engine.volume} куб.см у машины $car")
+    }
+}
+
+fun getCars(): List<Car> {
+    val vaz1 = Vaz2107.build(Car.Plates("123", 77))
+    val vaz2 = Vaz2108.build(Car.Plates("321", 78))
+    val taz = Taz
+    return listOf(vaz1, vaz2, taz)
+}
+
+fun refuelCars(cars: List<Car>) {
+    val station = GasStation()
+    for (car in cars) {
+        val fuelRequested = Random.nextInt(1, 100)
+        println("Заправка $fuelRequested л, сейчас в баке ${car.carOutput.getFuelContents()}")
+        station.fuel(car, fuelRequested)
+        println("Заправка $fuelRequested л завершена, сейчас в баке ${car.carOutput.getFuelContents()}")
     }
 }

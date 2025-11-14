@@ -29,7 +29,7 @@
 
 Полный интерфейс машины (для водителя) должен выглядеть вот так:
 ![Интерфейс машины  ](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/CST-Kotlin-Moi-Sklad-2025-10/Kotlin-5-OOP/master/doc/Car.puml)
-
+ 
 Сделайте машинам топливную систему:
 
 - Семерка пусть ездит на газу
