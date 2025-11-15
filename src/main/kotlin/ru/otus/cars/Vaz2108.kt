@@ -6,9 +6,6 @@ import kotlin.random.Random
  * Восьмерка
  */
 class Vaz2108 private constructor(color: String) : VazPlatform(color) {
-    /**
-     * Сам-себе-сборщик ВАЗ 2108.
-     */
     companion object : CarBuilder {
         private fun getRandomEngine(): VazEngine {
             return when (Random.nextInt(0, 3)) {
@@ -21,6 +18,14 @@ class Vaz2108 private constructor(color: String) : VazPlatform(color) {
         override fun build(plates: Car.Plates): Vaz2108 = Vaz2108("Красный").apply {
             this.engine = getRandomEngine()
             this.plates = plates
+            this.fuelSystem = createFuelSystem()
+        }
+
+        private fun createFuelSystem(): FuelSystem {
+            val tank = Tank(canExplode = false)
+            val mouth = PetrolMouth()
+            tank.mouth = mouth
+            return FuelSystem(tank, FuelType.PETROL)
         }
 
         fun alignWheels(vaz2108: Vaz2108) {
@@ -28,55 +33,41 @@ class Vaz2108 private constructor(color: String) : VazPlatform(color) {
             vaz2108.wheelAngle = 0
         }
 
-        /**
-         * Используем вместо STATIC
-         */
         const val MODEL = "2108"
     }
 
-    // Переопределяем свойство родителя
     override lateinit var engine: VazEngine
         private set
 
-    /**
-     * Восьмерка едет так
-     */
     fun zhzhzhzh() {
-        println("Помчали на ${MODEL}:")
+        println("Помчали на $MODEL:")
         println("Ж-ж-ж-ж....")
     }
 
-    // Переопределяем метод родителя
     override fun getEquipment(): String {
-        // Добавляем музыку к оборудованию
         return super.getEquipment() + ", музыка"
     }
 
-    private var currentSpeed: Int = 0 // Скока жмёт
+    private var currentSpeed: Int = 0
 
-    /**
-     * Доступно сборщику
-     * @see [build]
-     */
+    override lateinit var fuelSystem: FuelSystem
+
     override lateinit var plates: Car.Plates
         private set
 
-    // Выводим состояние машины
     override fun toString(): String {
         return "Vaz2108(plates=$plates, wheelAngle=$wheelAngle, currentSpeed=$currentSpeed)"
     }
 
-    /**
-     * Делегируем приборы внутреннему классу
-     */
     override val carOutput: CarOutput = VazOutput()
 
-    /**
-     * Имеет доступ к внутренним данным ЭТОГО ВАЗ-2108!
-     */
     inner class VazOutput : CarOutput {
         override fun getCurrentSpeed(): Int {
             return this@Vaz2108.currentSpeed
+        }
+
+        override fun getFuelContents(): Int {
+            return this@Vaz2108.fuelSystem.getContents()
         }
     }
 }

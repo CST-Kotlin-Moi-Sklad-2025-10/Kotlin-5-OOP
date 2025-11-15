@@ -19,6 +19,8 @@ interface Car : CarInput {
      */
     val carOutput: CarOutput
 
+    val fuelSystem: FuelSystem
+
     /**
      * Получить оборудование
      */

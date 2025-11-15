@@ -16,6 +16,12 @@ fun main() {
     techChecks()
     println("\n===> Taz...")
     println(Taz.color)
+    println("\n===> refuel testing")
+    testRefueling()
+    println("\n===> refuel Taz explosion")
+    testRefuelTazNoPlatesException()
+    println("\n===> RefuelGasCarWithPetrol")
+    testRefuelGasCarWithPetrolError()
 }
 
 fun driveCars() {
@@ -91,3 +97,67 @@ fun repairEngine(car: VazPlatform) {
         is VazEngine.SAMARA_2108 -> println("Угол зажигания у двигателя объемом ${car.engine.volume} куб.см у машины $car")
     }
 }
+
+fun testRefueling() {
+    val plates1 = Car.Plates("777AAA", 77)
+    val plates2 = Car.Plates("888BBB", 78)
+
+    val factory = Togliatti
+    val vaz2107 = factory.buildCar(Vaz2107, plates1)
+    val vaz2108 = factory.buildCar(Vaz2108, plates2)
+    val gasStation = GasStation()
+
+    println("Before refuel:")
+    println("Vaz2107 Fuel: ${vaz2107.carOutput.getFuelContents()}")
+    println("Vaz2108 Fuel: ${vaz2108.carOutput.getFuelContents()}")
+
+    gasStation.refuelCar(vaz2107, 40, FuelType.GAS)
+    gasStation.refuelCar(vaz2108, 50, FuelType.PETROL)
+
+    println("After refuel:")
+    println("Vaz2107 Fuel: ${vaz2107.carOutput.getFuelContents()}")
+    println("Vaz2108 Fuel: ${vaz2108.carOutput.getFuelContents()}")
+}
+
+fun testRefuelTazNoPlatesException() {
+    val taz = Taz
+    val gasStation = GasStation()
+
+    println("=== Test: refueling Taz expecting plates exception ===")
+
+    try {
+        gasStation.refuelCar(taz, 10, FuelType.GAS)
+        println("ERROR: NotImplementedError exception was not thrown, test failed")
+    } catch (e: NotImplementedError) {
+        println("Successfully caught NotImplementedError exception: ${e.message}")
+    } catch (e: Exception) {
+        println("Caught unexpected exception: ${e.message}")
+    }
+}
+
+
+fun testRefuelGasCarWithPetrolError() {
+    val plates = Car.Plates("GAS001", 77)
+    val factory = Togliatti
+    val carOnGas = factory.buildCar(Vaz2107, plates)
+
+    println("Tank mouth of car: ${carOnGas.fuelSystem.mouth}")
+    println("FuelSystem mouth: ${carOnGas.fuelSystem.mouth}")
+
+    val gasStation = GasStation()
+
+    println("=== Test: attempt to fill gas car with petrol ===")
+
+    try {
+        gasStation.refuelCar(carOnGas, 20, FuelType.PETROL)
+    } catch (e: IllegalStateException) {
+        if (e.message == "Fuel type mismatch: expected GAS, got PETROL") {
+            println("Successfully caught expected error: ${e.message}")
+        } else {
+            println("Caught IllegalStateException with unexpected message: ${e.message}")
+        }
+    } catch (e: Exception) {
+        println("Caught unexpected exception: ${e.message}")
+    }
+}
+
