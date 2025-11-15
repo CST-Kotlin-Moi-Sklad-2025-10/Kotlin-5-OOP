@@ -1,38 +1,29 @@
 package ru.otus.cars
 
-object Taz: Car {
-    /**
-     * Номерной знак
-     */
+object Taz : Car {
+
+    private val tank = Tank(canExplode = true)
+    private val mouth = LpgMouth()
+    override val fuelSystem: FuelSystem = FuelSystem(tank, FuelType.GAS).apply {
+        tank.mouth = mouth
+    }
+
     override val plates: Car.Plates
         get() = throw NotImplementedError("Номера сняты")
 
-    /**
-     * Цвет машины
-     */
     override val color: String = "Ржавый"
 
-    /**
-     * Следит за машиной
-     */
-    override val carOutput: CarOutput
-        get() = throw NotImplementedError("Приборов нет")
+    override val carOutput: CarOutput = object : CarOutput {
+        override fun getCurrentSpeed(): Int = 0
+        override fun getFuelContents(): Int = fuelSystem.getContents()
+    }
 
-    /**
-     * Получить оборудование
-     */
     override fun getEquipment(): String = "Крыса"
 
-    /**
-     * Руль вправо на [degrees] градусов
-     */
     override fun wheelToRight(degrees: Int) {
         throw NotImplementedError("Руля нет")
     }
 
-    /**
-     * Руль влево на [degrees] градусов
-     */
     override fun wheelToLeft(degrees: Int) {
         throw NotImplementedError("Руля нет")
     }
