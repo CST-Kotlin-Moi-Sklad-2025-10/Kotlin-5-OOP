@@ -1,5 +1,7 @@
 package ru.otus.cars
 
+import kotlin.random.Random
+
 object Taz: Car {
     /**
      * Номерной знак
@@ -17,6 +19,16 @@ object Taz: Car {
      */
     override val carOutput: CarOutput
         get() = throw NotImplementedError("Приборов нет")
+
+    val tank : Tank = VazTank.LADA_TAZ(32);
+    override val tankMouth: TankMouth = getRandomTankMouth()
+
+    fun getRandomTankMouth(): TankMouth {
+        return when (Random.nextInt(0, 1)) {
+            0 -> TankMouth.PetrolMouth(tank)
+            else -> TankMouth.LPGMouth(tank)
+        }
+    }
 
     /**
      * Получить оборудование
