@@ -21,10 +21,10 @@ object Taz: Car {
         get() = throw NotImplementedError("Приборов нет")
 
     val tank : Tank = VazTank.LADA_TAZ(32);
-    override val tankMouth: TankMouth = getRandomTankMouth()
+    override val tankMouth: TankMouth = getRandomTankMouth(tank)
 
-    fun getRandomTankMouth(): TankMouth {
-        return when (Random.nextInt(0, 1)) {
+    fun getRandomTankMouth(tank: Tank): TankMouth {
+        return when (Random.nextInt(0, 2)) {
             0 -> TankMouth.PetrolMouth(tank)
             else -> TankMouth.LPGMouth(tank)
         }
@@ -48,4 +48,10 @@ object Taz: Car {
     override fun wheelToLeft(degrees: Int) {
         throw NotImplementedError("Руля нет")
     }
+
+    override fun toString(): String {
+        return "Taz(plates=СНЯТЫ, color='$color', carOutput=ОТСУТСТВУЮТ, tank=$tank, tankMouth=$tankMouth)"
+    }
+
+
 }

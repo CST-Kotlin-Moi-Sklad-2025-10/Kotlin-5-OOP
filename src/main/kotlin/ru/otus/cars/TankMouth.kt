@@ -7,15 +7,18 @@ interface TankMouth {
     val tank: Tank
 
     fun open() {
-        println("Открываем горловину бака с типом $allowedFuelType")
+        println("Открываем горловину бака с типом ${allowedFuelType.getFuelTypeName()}")
     }
 
     fun close() {
-        println("Закрываем горловину бака с типом $allowedFuelType")
+        println("Закрываем горловину бака с типом ${allowedFuelType.getFuelTypeName()}")
     }
 
     fun addFuelToTank(liters: Int) {
+        open()
+        println("Заправляем $liters литров")
         tank.receiveFuel(liters)
+        close()
     }
 
     class PetrolMouth(override val tank: Tank) : TankMouth {
